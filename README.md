@@ -1,65 +1,61 @@
-# terraform-provider-encapi
+# Terraform Provider encapi
 
-Terraform / OpenTofu provider for [encapi](https://git.unkin.net/unkin/encapi),
-the Puppet External Node Classifier that replaces Cobbler.
+The encapi provider manages a Puppet External Node Classifier (ENC) served by
+encapi: Puppet environments (statuses), roles with inheritable default
+parameters, and per-node role assignments. It works with Terraform and OpenTofu.
 
-It manages three resources and two data sources over the encapi HTTP API.
-
-## Provider configuration
+## Quick start
 
 ```hcl
 terraform {
   required_providers {
     encapi = {
-      source  = "git.unkin.net/unkin/encapi"
-      version = "0.0.1"
+      source = "IUCLabs/encapi"
     }
   }
 }
 
 provider "encapi" {
-  endpoint = "https://encapi.k8s.syd1.au.unkin.net"
-  # token   = "..."   # defaults to $ENCAPI_WRITE_TOKEN
+  endpoint = "https://encapi.example.com"
+  # token defaults to the ENCAPI_WRITE_TOKEN environment variable
+}
+
+resource "encapi_status" "production" {
+  name = "production"
+}
+
+resource "encapi_role" "web" {
+  name           = "roles::web"
+  default_params = jsonencode({ port = 8080 })
+}
+
+resource "encapi_node" "web01" {
+  certname    = "web01.example.com"
+  role        = encapi_role.web.name
+  environment = encapi_status.production.name
 }
 ```
 
-Reads are unauthenticated; writes require the token. Set it out-of-band via the
-`ENCAPI_WRITE_TOKEN` environment variable (managed in Vault) rather than in HCL.
+Reads are unauthenticated; writes need the bearer token.
 
-## Resources
+## Requirements
 
-| Resource         | Purpose                                                        |
-|------------------|----------------------------------------------------------------|
-| `encapi_status`  | A Puppet environment (Cobbler "status"): testing, production…  |
-| `encapi_role`    | A class assignment target with inheritable `default_params`.   |
-| `encapi_node`    | Assigns a host (certname) to a role + environment, with `params`. |
+- [Terraform](https://developer.hashicorp.com/terraform/downloads) >= 1.0 or [OpenTofu](https://opentofu.org) >= 1.6
+- [Go](https://go.dev/doc/install) >= 1.25 (to build the provider)
 
-## Data sources
+## Building
 
-| Data source      | Purpose                                  |
-|------------------|------------------------------------------|
-| `encapi_node`    | Look up a node's role/environment/params. |
-| `encapi_role`    | Look up a role and its default params.   |
-
-## Parameters
-
-`default_params` (role) and `params` (node) are JSON-object strings. Use
-`jsonencode({...})` so numbers, bools, lists, and nested objects keep their
-types in the rendered ENC document:
-
-```hcl
-resource "encapi_role" "minio" {
-  name           = "roles::infra::storage::minio"
-  default_params = jsonencode({ minio_pool = "pool1", replicas = 4, tls = true })
-}
+```sh
+make build   # or: go build
+make test
+make docs    # regenerate docs/ from the schema and examples/
 ```
 
-Node `params` override the role's `default_params` on key collisions.
+## Documentation
 
-## Releases
+See [`docs/`](docs/index.md) for the provider, resource and data source
+reference, and [`examples/`](examples/) for usage.
 
-Tagging `vX.Y.Z` builds `terraform-provider-encapi_X.Y.Z_linux_amd64.zip` and
-uploads it to the ArtifactAPI Terraform registry (`terraform-unkin` remote,
-namespace `unkin/encapi`), which serves it as a GPG-signed provider registry.
+## License
 
-See `examples/` for full usage.
+[MIT](LICENSE)
