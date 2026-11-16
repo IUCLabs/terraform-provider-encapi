@@ -1,4 +1,4 @@
-# Statuses map to Puppet environments. Define as many as your estate uses;
+# Statuses map to Puppet environments. Define as many as you need;
 # a node can only be pinned to one that exists.
 resource "encapi_status" "testing" {
   name = "testing"
