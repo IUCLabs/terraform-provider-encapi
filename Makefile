@@ -1,10 +1,10 @@
-.PHONY: build install test lint fmt clean tidy package patch minor major
+.PHONY: build install test lint fmt clean tidy package docs patch minor major
 
 BINARY := terraform-provider-encapi
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo "0.0.0-dev")
 OS_ARCH := linux_amd64
 INSTALL_VERSION := $(shell echo $(VERSION) | sed 's/^v//')
-INSTALL_DIR := ~/.terraform.d/plugins/git.unkin.net/unkin/encapi/$(INSTALL_VERSION)/$(OS_ARCH)
+INSTALL_DIR := ~/.terraform.d/plugins/registry.terraform.io/iuclabs/encapi/$(INSTALL_VERSION)/$(OS_ARCH)
 ZIP := $(BINARY)_$(INSTALL_VERSION)_$(OS_ARCH).zip
 
 GO_VERSION_REQUIRED := 1.23
@@ -38,6 +38,9 @@ package: build
 
 clean:
 	rm -f $(BINARY) *.zip
+
+docs:
+	go generate ./...
 
 tidy:
 	go mod tidy

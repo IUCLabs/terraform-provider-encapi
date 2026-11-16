@@ -37,7 +37,7 @@ func (r *statusResource) Metadata(_ context.Context, req resource.MetadataReques
 
 func (r *statusResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "A Puppet environment (Cobbler \"status\", e.g. testing, production, development). Nodes may only reference a status that exists.",
+		Description: "A Puppet environment, referred to as a status (e.g. testing, production, development). Nodes may only reference a status that exists.",
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
 				Description: "Status/environment name.",
