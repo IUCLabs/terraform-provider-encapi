@@ -39,11 +39,11 @@ func (p *encapiProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 		Description: "Manage the Puppet External Node Classifier (encapi): roles, statuses (environments), and node role assignments.",
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
-				Description: "The encapi server base URL (e.g. https://encapi.k8s.syd1.au.unkin.net).",
+				Description: "The encapi server base URL, e.g. `https://encapi.example.com`.",
 				Required:    true,
 			},
 			"token": schema.StringAttribute{
-				Description: "Write token (bearer) for mutating operations. Defaults to the ENCAPI_WRITE_TOKEN environment variable.",
+				Description: "Write token (bearer) for mutating operations. Defaults to the `ENCAPI_WRITE_TOKEN` environment variable.",
 				Optional:    true,
 				Sensitive:   true,
 			},

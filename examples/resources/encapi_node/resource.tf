@@ -1,5 +1,5 @@
 resource "encapi_node" "example" {
-  certname    = "ausyd1nxvm2000.main.unkin.net"
+  certname    = "node01.example.com"
   role        = "roles::infra::storage::vault"
   environment = "testing"
 

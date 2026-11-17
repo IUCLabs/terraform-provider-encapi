@@ -1,5 +1,5 @@
 data "encapi_node" "web0" {
-  certname = "ausyd1nxvm2000.main.unkin.net"
+  certname = "node01.example.com"
 }
 
 output "web0_role" {

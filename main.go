@@ -3,6 +3,8 @@
 // role assignments.
 package main
 
+//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.24.0 generate --provider-name encapi
+
 import (
 	"context"
 	"flag"
@@ -10,7 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 
-	"git.unkin.net/unkin/terraform-provider-encapi/internal/provider"
+	"github.com/IUCLabs/terraform-provider-encapi/internal/provider"
 )
 
 var version = "0.0.1"
@@ -21,7 +23,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "git.unkin.net/unkin/encapi",
+		Address: "registry.terraform.io/iuclabs/encapi",
 		Debug:   debug,
 	}
 

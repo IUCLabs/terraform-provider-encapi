@@ -1,6 +1,6 @@
 package provider
 
-// API wire types, mirroring git.unkin.net/unkin/encapi/pkg/models. They are
+// API wire types, mirroring the encapi API models. They are
 // duplicated here to keep the provider's dependency surface small.
 
 type roleAPI struct {

@@ -1,4 +1,4 @@
-module git.unkin.net/unkin/terraform-provider-encapi
+module github.com/IUCLabs/terraform-provider-encapi
 
 go 1.25.9
 
