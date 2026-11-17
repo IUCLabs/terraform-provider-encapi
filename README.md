@@ -6,6 +6,8 @@ parameters, and per-node role assignments. It works with Terraform and OpenTofu.
 
 ## Quick start
 
+Prebuilt provider archives are on the [releases page](https://github.com/IUCLabs/terraform-provider-encapi/releases).
+
 ```hcl
 terraform {
   required_providers {
